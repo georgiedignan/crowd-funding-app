@@ -6,7 +6,7 @@ class PledgeSerializer(serializers.Serializer):
     amount = serializers.IntegerField()
     comment = serializers.CharField(max_length=200)
     anonymous = serializers.BooleanField()
-    supporter = serializers.CharField(max_length=200)
+    supporter = serializers.ReadOnlyField(source='supporter.id')
     project_id = serializers.IntegerField()
     
     def create(self, validated_data):
@@ -24,15 +24,9 @@ class ProjectSerializer(serializers.Serializer):
     owner = serializers.ReadOnlyField(source='owner.id')
 
     def validate(self,data):
-        # if data["not_for_profit"] == True:
-            # if 'amount' in data:
-                # raise serializers.ValidationError("")
-        # else:
-            # if 'amount' not in data:
-                # raise serializers.ValidationError("")
-        # return data
-
-        if data["not_for_profit"] == True and 'amount' in data:
+        if 'not_for_profit' not in data:
+            return data
+        elif data["not_for_profit"] == True and 'amount' in data:
             raise serializers.ValidationError("")
         elif data["not_for_profit"] == False and 'amount' not in data:
             raise serializers.ValidationError("")
@@ -48,6 +42,7 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.title = validated_data.get('title',instance.title)
         instance.description = validated_data.get('description',instance.description)
         instance.amount = validated_data.get('amount',instance.amount)
+        instance.not_for_profit = validated_data.get('not_for_profit',instance.not_for_profit)
         instance.image = validated_data.get('image',instance.image)
         instance.is_open = validated_data.get('is_open',instance.is_open)
         instance.date_created = validated_data.get('date_created',instance.date_created)
