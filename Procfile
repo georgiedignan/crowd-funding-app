@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath Happy2Help crowdfunding.wsgi --log-file -
+web: gunicorn --pythonpath Happy2Help Happy2Help.wsgi --log-file -
