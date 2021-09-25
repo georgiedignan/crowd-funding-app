@@ -66,6 +66,12 @@ class ProjectDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class PledgeList(APIView):
+
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly
+        ]
+
     def get(self, request):
         pledges = Pledge.objects.all()
         serializer = PledgeSerializer(pledges, many=True)

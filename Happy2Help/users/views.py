@@ -11,9 +11,9 @@ class CustomUserList(APIView):
         users = CustomUser.objects.all()
         serializers = CustomUserSerializer(users, many=True)
         return Response(serializers.data)
-    #
+
     def post(self, request):
-        serializer = CustomUserSerializer(data=request.data)
+        serializers = CustomUserSerializer(data=request.data)
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data)
