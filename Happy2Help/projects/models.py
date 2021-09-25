@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from datetime import date
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
@@ -8,12 +9,16 @@ class Project(models.Model):
     amount = models.IntegerField(null=True)
     image = models.URLField()
     is_open = models.BooleanField()
+    location = models.CharField(max_length=200)
+    category = models.CharField(max_length=200)
     # can create default
-    date_created = models.DateTimeField()
+    date_created = models.DateField(default=date.today)
     owner = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='owner_projects'
+
+
     )
 
 class Pledge(models.Model):

@@ -8,8 +8,7 @@ from .permissions import IsOwnerOrReadOnly
 
 class ProjectList(APIView):
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
+        permissions.IsAuthenticatedOrReadOnly
         ]
 
     def get(self, request):

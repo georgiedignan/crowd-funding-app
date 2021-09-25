@@ -20,7 +20,9 @@ class ProjectSerializer(serializers.Serializer):
     amount = serializers.IntegerField(required=False)
     image = serializers.URLField()
     is_open = serializers.BooleanField()
-    date_created = serializers.DateTimeField()
+    category = serializers.CharField(max_length=200)
+    location = serializers.CharField(max_length=200)
+    date_created = serializers.ReadOnlyField()
     owner = serializers.ReadOnlyField(source='owner.id')
 
     def validate(self,data):
@@ -45,6 +47,8 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.not_for_profit = validated_data.get('not_for_profit',instance.not_for_profit)
         instance.image = validated_data.get('image',instance.image)
         instance.is_open = validated_data.get('is_open',instance.is_open)
+        instance.category = validated_data.get('category',instance.category)
+        instance.location = validated_data.get('location',instance.location)
         instance.date_created = validated_data.get('date_created',instance.date_created)
         instance.owner = validated_data.get('owner',instance.owner)
         instance.save()
